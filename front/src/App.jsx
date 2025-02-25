@@ -1,49 +1,25 @@
 import React from "react";
-import GlideCarousel from "./page/GlideCarousel";
-
-const Header = () => {
-  return (
-    <header className="bg-white shadow-md p-4 flex justify-between items-center">
-      <h1 className="text-2xl font-bold">My Website</h1>
-      <nav>
-        <ul className="flex space-x-4">
-          <li><a href="#" className="text-gray-700 hover:text-gray-900">Home</a></li>
-          <li><a href="#" className="text-gray-700 hover:text-gray-900">About</a></li>
-          <li><a href="#" className="text-gray-700 hover:text-gray-900">Contact</a></li>
-        </ul>
-      </nav>
-    </header>
-  );
-};
-
-const HeroSection = () => {
-  return (
-    <section className="text-center py-20 bg-blue-500 text-white">
-      <h2 className="text-4xl font-bold mb-4">Welcome to My Website</h2>
-      <p className="text-lg mb-4">Explore our amazing content and features.</p>
-      <button className="bg-white text-blue-500 px-6 py-2 rounded-md font-semibold hover:bg-gray-200">
-        Get Started
-      </button>
-    </section>
-  );
-};
-
-const Footer = () => {
-  return (
-    <footer className="bg-gray-900 text-white text-center p-4 mt-10">
-      <p>&copy; 2025 My Website. All rights reserved.</p>
-    </footer>
-  );
-};
+import Header from "./components/includes/Header"; // 헤더 컴포넌트
+import MainSection from "./page/trip/MainSection"; // 메인 배너
+import ContinentList from "./page/trip/ContinentList"; // 대륙별 여행지
+import PopularFestivals from "./page/trip/PopularFestivals"; // 인기 축제 섹션
+import FestivalSlide from "./page/trip/FestivalSlide.jsx"; // 축제 슬라이드
+import FestivalCalendar from "./page/trip/FestivalCalendar"; // 캘린더 컴포넌트
+import CulturalExperiences from "./page/trip/CulturalExperiences"; // 문화 체험 컴포넌트
+import Footer from "./components/includes/Footer"; // 푸터 컴포넌트
 
 const App = () => {
   return (
-    <div>
+    <>
       <Header />
-      <HeroSection />
-      <GlideCarousel />
+      <MainSection />
+      <ContinentList />
+      <PopularFestivals />
+      <FestivalSlide />
+      <FestivalCalendar />
+      <CulturalExperiences />
       <Footer />
-    </div>
+    </>
   );
 };
 
