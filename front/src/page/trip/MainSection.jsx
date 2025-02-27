@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import mainImg from "../../assets/여행지 이미지/한국/한국여행지.jpg"
 
 const MainSection = () => {
   const [searchText, setSearchText] = useState("");
@@ -12,7 +13,7 @@ const MainSection = () => {
       <section className="relative bg-gray-900 h-[600px] overflow-hidden">
         {/* 배경 이미지 */}
         <img
-          src="https://creatie.ai/ai/api/search-image?query=A vibrant cultural festival celebration scene with traditional performances, colorful costumes, and joyous crowd participation, capturing the essence of global cultural diversity against a dramatic sunset sky&width=1920&height=1080&orientation=landscape&flag=6fbd864d-42ae-4b79-97ca-14ae15d995a4"
+          src={mainImg} // im
           className="absolute inset-0 w-full h-full object-cover opacity-50"
           alt="축제 배경"
         />

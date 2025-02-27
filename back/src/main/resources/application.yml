@@ -1,0 +1,13 @@
+server:
+  port: 7007
+
+spring:
+  output:
+    ansi:
+      enabled: always
+      
+  thymeleaf:
+    prefix: classpath:templates/
+    suffix: .html
+    view-names: thymeleaf/*
+    cache: false
