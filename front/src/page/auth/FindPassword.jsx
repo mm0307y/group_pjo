@@ -26,11 +26,11 @@ const FindPassword = () => {
   };
 
   const handleNavigateToLogin = () => {
-    navigate("/login"); // 로그인 페이지로 이동
+    window.location.href = "/login"; // 로그인 페이지로 이동
   };
 
   const handleNavigateToFindId = () => {
-    navigate("/find-id"); // 아이디 찾기 페이지로 이동
+    window.location.href = "/find-id"; // 아이디 찾기 페이지로 이동
   };
 
   return (
@@ -39,9 +39,10 @@ const FindPassword = () => {
         <div className="max-w-md w-full space-y-8 bg-white p-8 rounded-lg shadow-sm">
           <div>
             <img
-              className="mx-auto h-12 w-auto"
+              className="mx-auto h-12 w-auto cursor-pointer"
               src="https://ai-public.creatie.ai/gen_page/logo_placeholder.png"
               alt="Logo"
+              onClick={() => navigate("/")} // ✅ navigate("/") 사용
             />
             <h2 className="mt-6 text-center text-3xl font-bold text-gray-900">
               비밀번호 찾기
@@ -105,11 +106,10 @@ const FindPassword = () => {
               <button
                 type="submit"
                 disabled={!isFormValid}
-                className={`!rounded-button group relative w-full flex justify-center py-3 px-4 border border-transparent text-sm font-medium text-white ${
-                  isFormValid
-                    ? "bg-custom hover:bg-custom/90"
-                    : "bg-gray-400 cursor-not-allowed"
-                } focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-custom`}
+                className={`!rounded-button group relative w-full flex justify-center py-3 px-4 border border-transparent text-sm font-medium text-white ${isFormValid
+                  ? "bg-custom hover:bg-custom/90"
+                  : "bg-gray-400 cursor-not-allowed"
+                  } focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-custom`}
               >
                 비밀번호 찾기
               </button>
