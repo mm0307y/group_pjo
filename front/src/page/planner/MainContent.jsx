@@ -1,5 +1,7 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { GoogleMap, LoadScript, Marker, Autocomplete } from "@react-google-maps/api";
+import { useLocation } from "react-router-dom"; // ✅ URL에서 검색어 가져오기 위해 추가
+import { use } from "react";
 
 // 지도 컨테이너 스타일 설정
 const containerStyle = {
@@ -25,12 +27,24 @@ const MainContent = () => {
   const [budget, setBudget] = useState("");
   const [mapCenter, setMapCenter] = useState(defaultCenter);
 
+  const location = useLocation(); // ✅ URL에서 검색어 가져오기
+  const searchParams = new URLSearchParams(location.search);
+  const searchQuery = searchParams.get("search") || ""; // ✅ 검색어 추출
+  const [country, setCountry] = useState(searchQuery); // ✅ 검색어를 상태로 저장
+
   // Autocomplete 참조
   const budgetInputRef = useRef(null); // 🔹 input 요소 참조 생성
   const autocompleteRef = useRef(null);
   const mapAutocompleteRef = useRef(null);
   const countryInputRef = useRef(null);
   const mapInputRef = useRef(null);
+
+  useEffect(() => {
+    // ✅ URL에서 가져온 검색어가 있으면 입력란에 자동 입력
+    if (searchQuery && countryInputRef.current) {
+      countryInputRef.current.value = searchQuery;
+    }
+  }, [searchQuery]);
 
   // 숫자를 천 단위 콤마 추가하는 함수
   const formatBudget = (num) => {
@@ -140,6 +154,8 @@ const MainContent = () => {
                   ref={countryInputRef}
                   type="text"
                   placeholder="여행하고 싶은 나라를 입력하세요"
+                  defaultValue={searchQuery} // ✅ 검색어 반영
+                  onChange={(e) => setCountry(e.target.value)}
                   className="w-full border-gray-300 focus:border-custom focus:ring-custom rounded-md p-2"
                 />
               </Autocomplete>
@@ -202,7 +218,7 @@ const MainContent = () => {
         <LoadScript googleMapsApiKey={process.env.REACT_APP_GOOGLE_MAPS_KEY} libraries={["places"]}>
           <Autocomplete onLoad={(autocomplete) => (mapAutocompleteRef.current = autocomplete)} onPlaceChanged={() => onPlaceChanged(mapAutocompleteRef.current, mapInputRef, true)}>
             <input
-              ref={ mapInputRef}
+              ref={mapInputRef}
               type="text"
               placeholder="지도에서 검색할 장소를 입력하세요"
               className="w-full border-gray-300 focus:border-custom focus:ring-custom rounded-md p-2 mb-4"

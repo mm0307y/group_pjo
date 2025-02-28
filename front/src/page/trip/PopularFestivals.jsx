@@ -1,27 +1,49 @@
 import React, { useEffect, useRef } from "react";
 import Glide from "@glidejs/glide";
-import FestivalSlide from "./FestivalSlide"; // 개별 축제 카드 컴포넌트
 import "@glidejs/glide/dist/css/glide.core.min.css"; // Glide 스타일 추가
 import "@glidejs/glide/dist/css/glide.theme.min.css"; // 추가 스타일 (선택)
+import korea from "../../assets/여행지 이미지/한국/불꽃놀이.jpg"
+import japan from "../../assets/여행지 이미지/일본/훗카이도 시코쓰 호수 얼음 축제.jpg"
+import italian from "../../assets/여행지 이미지/이탈리아/베로나 오페라 페스티벌.JPG"
+import thailand from "../../assets/여행지 이미지/태국/코팡안 풀문 파티.JPG"
+import maldives from "../../assets/여행지 이미지/몰디브/몰디브 전통 보트.JPG"
+import usa from "../../assets/여행지 이미지/미국/뉴욕 타임스퀘어 새해맞이.JPG"
 
 const festivalData = [
   {
-    title: "리우 카니발",
-    location: "브라질 리우데자네이루",
-    image:
-      "https://creatie.ai/ai/api/search-image?query=Rio%20Carnival%20celebration&width=600&height=400",
+    title: "서울 국제 폭죽 축제",
+    location: "대한민국 서울",
+    image: korea,
   },
+
   {
-    title: "옥토버페스트",
-    location: "독일 뮌헨",
-    image:
-      "https://creatie.ai/ai/api/search-image?query=Oktoberfest%20in%20Munich&width=600&height=400",
+    title: "얼음 축제",
+    location: "일본 도쿄",
+    image: japan,
   },
+  
   {
-    title: "벚꽃 축제",
-    location: "일본 교토",
-    image:
-      "https://creatie.ai/ai/api/search-image?query=Japanese%20cherry%20blossom%20festival&width=600&height=400",
+    title: "오페라 축제",
+    location: "이탈리아 로마",
+    image: italian,
+  },
+
+  {
+    title: "코팡안 풀문 파티",
+    location: "태국 방콕",
+    image: thailand,
+  },
+
+  {
+    title: "전토 보트",
+    location: "몰디브 말레",
+    image: maldives,
+  },
+
+  {
+    title: "타임스퀘어 새해맞이",
+    location: "미국 워싱턴 D.C.",
+    image: usa,
   },
 ];
 
@@ -54,11 +76,13 @@ const PopularFestivals = () => {
             <ul className="glide__slides">
               {festivalData.map((festival, index) => (
                 <li key={index} className="glide__slide">
-                  <FestivalSlide
-                    title={festival.title}
-                    location={festival.location}
-                    image={festival.image}
-                  />
+                  <div className="rounded-lg overflow-hidden">
+                    <img src={festival.image} className="w-full h-80 object-cover" alt={festival.title} />
+                    <div className="p-4 bg-white">
+                      <h3 className="font-bold text-lg mb-2">{festival.title}</h3>
+                      <p className="text-gray-600">{festival.location}</p>
+                    </div>
+                  </div>
                 </li>
               ))}
             </ul>
