@@ -40,7 +40,7 @@ const FindPassword = () => {
           <div>
             <img
               className="mx-auto h-12 w-auto cursor-pointer"
-              src="https://ai-public.creatie.ai/gen_page/logo_placeholder.png"
+              src="/images/Yeoul_Logo.jpg"
               alt="Logo"
               onClick={() => navigate("/")} // ✅ navigate("/") 사용
             />
