@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import axios from "axios"; // axios import
 
 const LoginPage = () => {
   const [email, setEmail] = useState("");
@@ -7,10 +8,28 @@ const LoginPage = () => {
   const [rememberMe, setRememberMe] = useState(false);
   const navigate = useNavigate(); // useNavigate 훅 사용
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("로그인 정보:", { email, password, rememberMe });
-    // 여기에 실제 로그인 API 호출 로직 추가 가능
+
+    try {
+      // 로그인 API 호출
+      const response = await axios.post(
+        "http://localhost:7007/login",
+        { userId: email, userPw: password },
+        { withCredentials: true }  // CORS 관련 쿠키 전송
+      );
+
+      console.log("로그인 성공:", response.data);  // 서버에서 받은 JWT 토큰 출력
+
+      // JWT 토큰을 로컬 스토리지에 저장 (예시)
+      localStorage.setItem("authToken", response.data.token);
+
+      // 로그인 후 다른 페이지로 이동 (예: 대시보드)
+      navigate("/dashboard");  // 적절한 경로로 변경
+    } catch (error) {
+      console.error("로그인 실패:", error.response ? error.response.data : error.message);
+      // 로그인 실패 처리 (예: 에러 메시지 표시)
+    }
   };
 
   const handleNavigate = (path) => {
