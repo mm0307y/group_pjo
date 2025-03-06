@@ -60,8 +60,8 @@ const Header = () => {
           {/* 왼쪽 - 로고 */}
           {/* 로고 (클릭하면 홈페이지로 이동 & 새로고침) */}
           <img
-            className="h-8 w-auto cursor-pointer"
-            src="https://ai-public.creatie.ai/gen_page/logo_placeholder.png"
+            className="h-14 w-auto cursor-pointer"
+            src="/images/Yeoul_Logo.jpg"
             alt="로고"
             onClick={() => {
               window.location.href = "/"; // 새로고침하면서 홈페이지 이동

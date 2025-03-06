@@ -57,9 +57,9 @@ const SignupPage = () => {
       <div className="max-w-md w-full bg-white py-8 px-6 shadow-sm rounded-lg">
         <div className="text-center">
           <img
-            src="https://ai-public.creatie.ai/gen_page/logo_placeholder.png"
+            src="/images/Yeoul_Logo.jpg"
             alt="로고"
-            className="h-8 mx-auto cursor-pointer"
+            className="h-14 mx-auto cursor-pointer"
             onClick={() => (window.location.href = "/")} // 홈페이지 이동
           />
           <h2 className="text-2xl font-bold text-gray-900 mt-4">회원가입</h2>

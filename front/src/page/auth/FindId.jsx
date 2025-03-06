@@ -24,7 +24,7 @@ const FindId = () => {
           {/* 로고 클릭 시 홈페이지로 이동 */}
           <img
             className="mx-auto h-12 w-auto mb-8 cursor-pointer"
-            src="https://ai-public.creatie.ai/gen_page/logo_placeholder.png"
+            src="/images/Yeoul_Logo.jpg"
             alt="Logo"
             onClick={() => (window.location.href = "/")} // 홈페이지 이동
           />

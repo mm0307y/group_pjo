@@ -43,7 +43,7 @@ const LoginPage = () => {
       <div className="relative w-full max-w-md">
         <div className="bg-white rounded-lg shadow-xl p-8">
           <div className="text-center mb-8">
-            <img className="mx-auto h-12 w-auto cursor-pointer" src="https://ai-public.creatie.ai/gen_page/logo_placeholder.png" alt="Logo" onClick={() => handleNavigate("/")} />
+            <img className="mx-auto h-12 w-auto cursor-pointer" src="/images/Yeoul_Logo.jpg" alt="Logo" onClick={() => handleNavigate("/")} />
             <h2 className="mt-6 text-3xl font-bold text-gray-900">로그인</h2>
           </div>
           <form className="space-y-6" onSubmit={handleSubmit}>
