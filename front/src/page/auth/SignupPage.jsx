@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 
 const SignupPage = () => {
   const [formData, setFormData] = useState({
@@ -57,7 +58,7 @@ const SignupPage = () => {
       <div className="max-w-md w-full bg-white py-8 px-6 shadow-sm rounded-lg">
         <div className="text-center">
           <img
-            src="/images/Yeoul_Logo.jpg"
+            src="/images/Yeoul_Logo.png"
             alt="로고"
             className="h-14 mx-auto cursor-pointer"
             onClick={() => (window.location.href = "/")} // 홈페이지 이동
@@ -97,7 +98,7 @@ const SignupPage = () => {
               <button
                 type="button"
                 onClick={handleEmailVerification}
-                className="px-4 py-2 text-white bg-custom rounded-r-md hover:bg-custom/90"
+                className="px-4 py-2 text-white bg-orange-500 rounded-r-md"
               >
                 인증하기
               </button>
@@ -120,7 +121,7 @@ const SignupPage = () => {
               <button
                 type="button"
                 onClick={handleCheckUsername}
-                className="px-4 py-2 text-white bg-custom rounded-r-md hover:bg-custom/90"
+                className="px-4 py-2 text-white bg-orange-500 rounded-r-md "
               >
                 중복확인
               </button>
@@ -193,10 +194,16 @@ const SignupPage = () => {
           </div>
 
           {/* 가입 버튼 */}
-          <button type="submit" className="w-full py-2 text-white bg-custom rounded-md hover:bg-custom/90">
+          <button type="submit" className="w-full py-2 text-white bg-orange-500 rounded-md ">
             가입하기
           </button>
         </form>
+        <p className="mt-7 text-center text-sm text-gray-600">
+          이미 계정이 있으신가요? 
+          <Link to="/login" className="font-medium text-custom hover:text-orange-500">
+            로그인하기
+          </Link>
+        </p>
       </div>
     </div>
   );

@@ -40,7 +40,7 @@ const FindPassword = () => {
           <div>
             <img
               className="mx-auto h-12 w-auto cursor-pointer"
-              src="/images/Yeoul_Logo.jpg"
+              src="/images/Yeoul_Logo.png"
               alt="Logo"
               onClick={() => navigate("/")} // ✅ navigate("/") 사용
             />
@@ -108,7 +108,7 @@ const FindPassword = () => {
                 disabled={!isFormValid}
                 className={`!rounded-button group relative w-full flex justify-center py-3 px-4 border border-transparent text-sm font-medium text-white ${isFormValid
                   ? "bg-custom hover:bg-custom/90"
-                  : "bg-gray-400 cursor-not-allowed"
+                  : "bg-orange-500 cursor-not-allowed"
                   } focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-custom`}
               >
                 비밀번호 찾기
@@ -118,14 +118,14 @@ const FindPassword = () => {
             <div className="flex items-center justify-center space-x-4 text-sm">
               <button
                 onClick={handleNavigateToFindId} // 아이디 찾기 페이지로 이동
-                className="text-custom hover:text-custom/90"
+                className="text-black-500 hover:text-orange-500"
               >
                 아이디 찾기
               </button>
               <span className="text-gray-300">|</span>
               <button
                 onClick={handleNavigateToLogin} // 로그인 페이지로 이동
-                className="text-custom hover:text-custom/90"
+                className="text-black-500 hover:text-orange-500"
               >
                 로그인으로 돌아가기
               </button>

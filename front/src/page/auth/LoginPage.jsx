@@ -14,17 +14,25 @@ const LoginPage = () => {
   };
 
   const handleNavigate = (path) => {
-    window.location.href = path; // 경로에 맞게 새로고침 후 이동
+    navigate(path); // 새로고침 없이 이동
   };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-cover bg-center"
-      style={{ backgroundImage: "url('https://creatie.ai/ai/api/search-image?query=A stunning panoramic view of a serene beach paradise with crystal clear turquoise waters, white sandy shores, and lush tropical palm trees swaying in the gentle breeze.&width=1920&height=1080&orientation=landscape')" }}>
-
-      <div className="relative w-full max-w-md">
+      style={{
+        backgroundImage: `url('/images/korea_trip.jpg')`,
+        backgroundRepeat: "no-repeat",
+      }}
+    >
+      <div className="w-full max-w-md mx-auto">
         <div className="bg-white rounded-lg shadow-xl p-8">
           <div className="text-center mb-8">
-            <img className="mx-auto h-12 w-auto cursor-pointer" src="/images/Yeoul_Logo.jpg" alt="Logo" onClick={() => handleNavigate("/")} />
+            <img
+              className="mx-auto h-12 w-auto cursor-pointer"
+              src="/images/Yeoul_Logo.png"
+              alt="Logo"
+              onClick={() => handleNavigate("/")}
+            />
             <h2 className="mt-6 text-3xl font-bold text-gray-900">로그인</h2>
           </div>
           <form className="space-y-6" onSubmit={handleSubmit}>
@@ -59,29 +67,32 @@ const LoginPage = () => {
               />
               <label className="ml-2 text-sm text-gray-700">로그인 상태 유지</label>
             </div>
-            <button type="submit" className="w-full bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-500">
+            <button type="submit" className="w-full bg-orange-500 text-white py-3 rounded-lg">
               로그인
             </button>
           </form>
+
           <div className="mt-6 text-center text-sm">
-            <button
+            <span
+              className="text-gray-900 hover:text-orange-500 cursor-pointer"
               onClick={() => handleNavigate("/signup")}
-              className="text-blue-500 hover:underline"
             >
               회원가입
-            </button> |
-            <button
+            </span>
+            <span className="mx-2 text-gray-400">|</span>
+            <span
+              className="text-gray-900 hover:text-orange-500 cursor-pointer"
               onClick={() => handleNavigate("/find-id")}
-              className="text-blue-500 hover:underline"
             >
               아이디 찾기
-            </button> |
-            <button
+            </span>
+            <span className="mx-2 text-gray-400">|</span>
+            <span
+              className="text-gray-900 hover:text-orange-500 cursor-pointer"
               onClick={() => handleNavigate("/find-pw")}
-              className="text-blue-500 hover:underline"
             >
               비밀번호 찾기
-            </button>
+            </span>
           </div>
         </div>
       </div>

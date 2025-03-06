@@ -1,19 +1,44 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom"; // ✅ useNavigate 추가
 
 const FindId = () => {
   // 입력값과 결과 메시지 상태 관리
   const [formData, setFormData] = useState({ name: "", email: "" });
-  const [isResultVisible, setIsResultVisible] = useState(false);
+  const [userId, setUserId] = useState(null); // 찾은 아이디 저장
+  const [error, setError] = useState(null); // 오류 메시지 저장
+  const navigate = useNavigate(); // ✅ 페이지 이동을 위한 useNavigate 사용
 
   // 입력값 변경 핸들러
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  // 폼 제출 핸들러
-  const handleSubmit = (e) => {
-    e.preventDefault(); // 기본 제출 동작 방지
-    setIsResultVisible(true); // 결과 메시지 표시
+  // 아이디 찾기 요청 처리
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      setError(null); // 이전 오류 초기화
+      setUserId(null); // 이전 아이디 초기화
+
+      const response = await fetch("http://localhost:7007/api/find-id", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        setUserId(data.userId); // 찾은 아이디 저장
+      } else {
+        setUserId(null);
+        setError("입력하신 정보와 일치하는 아이디를 찾을 수 없습니다.");
+      }
+    } catch (error) {
+      console.error("아이디 찾기 오류:", error);
+      setError("서버 오류가 발생했습니다. 다시 시도해주세요.");
+    }
   };
 
   return (
@@ -21,12 +46,11 @@ const FindId = () => {
       <div className="max-w-md w-full space-y-8 bg-white p-10 rounded-lg shadow-sm">
         {/* 로고 및 제목 */}
         <div className="text-center">
-          {/* 로고 클릭 시 홈페이지로 이동 */}
           <img
             className="mx-auto h-12 w-auto mb-8 cursor-pointer"
-            src="/images/Yeoul_Logo.jpg"
+            src="/images/Yeoul_Logo.png"
             alt="Logo"
-            onClick={() => (window.location.href = "/")} // 홈페이지 이동
+            onClick={() => navigate("/")} // ✅ useNavigate 사용 (새로고침 없이 이동)
           />
           <h2 className="text-2xl font-bold text-gray-900 mb-2">아이디 찾기</h2>
           <p className="text-sm text-gray-600">
@@ -53,7 +77,7 @@ const FindId = () => {
                   value={formData.name}
                   onChange={handleChange}
                   required
-                  className="!rounded-button appearance-none block w-full pl-10 pr-3 py-2.5 border border-gray-300 placeholder-gray-400 focus:outline-none focus:ring-custom focus:border-custom text-sm"
+                  className="block w-full pl-10 pr-3 py-2.5 border border-gray-300 rounded-md text-sm focus:ring-orange-500 focus:border-orange-500"
                   placeholder="이름을 입력해주세요"
                 />
               </div>
@@ -75,7 +99,7 @@ const FindId = () => {
                   value={formData.email}
                   onChange={handleChange}
                   required
-                  className="!rounded-button appearance-none block w-full pl-10 pr-3 py-2.5 border border-gray-300 placeholder-gray-400 focus:outline-none focus:ring-custom focus:border-custom text-sm"
+                  className="block w-full pl-10 pr-3 py-2.5 border border-gray-300 rounded-md text-sm focus:ring-orange-500 focus:border-orange-500"
                   placeholder="이메일을 입력해주세요"
                 />
               </div>
@@ -86,27 +110,37 @@ const FindId = () => {
           <div className="space-y-3">
             <button
               type="submit"
-              className="!rounded-button group relative w-full flex justify-center py-2.5 px-4 border border-transparent text-sm font-medium text-white bg-custom hover:bg-custom/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-custom"
+              className="w-full bg-orange-500 text-white py-2.5 rounded-md text-sm font-medium hover:bg-orange-600 focus:ring-2 focus:ring-orange-500"
             >
               아이디 찾기
             </button>
-            {/* 로그인 페이지로 이동하는 버튼 */}
-            <button
-              type="button"
-              onClick={() => (window.location.href = "/login")} // 로그인 페이지 이동
-              className="!rounded-button block w-full text-center py-2.5 px-4 border border-gray-300 text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-custom"
-            >
-              로그인으로 돌아가기
-            </button>
+            <div className="mt-6 text-center text-sm">
+              <button
+                onClick={() => navigate("/login")} // ✅ useNavigate 사용
+                className="text-gray-900 hover:text-orange-500"
+              >
+                로그인으로 돌아가기
+              </button>
+            </div>
           </div>
         </form>
 
         {/* 결과 메시지 (조건부 렌더링) */}
-        {isResultVisible && (
-          <div id="result" className="mt-4 p-4 rounded-lg bg-blue-50 text-blue-700 text-sm">
+        {userId && (
+          <div className="mt-4 p-4 rounded-lg bg-blue-50 text-blue-700 text-sm">
             <p className="flex items-center">
               <i className="fas fa-info-circle mr-2"></i>
-              <span>입력하신 정보와 일치하는 아이디를 이메일로 발송했습니다.</span>
+              <span>회원님의 아이디는 <strong>{userId}</strong> 입니다.</span>
+            </p>
+          </div>
+        )}
+
+        {/* 에러 메시지 */}
+        {error && (
+          <div className="mt-4 p-4 rounded-lg bg-red-50 text-red-700 text-sm">
+            <p className="flex items-center">
+              <i className="fas fa-exclamation-circle mr-2"></i>
+              {error}
             </p>
           </div>
         )}

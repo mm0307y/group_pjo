@@ -1,32 +1,14 @@
 import React from "react";
-import { useNavigate } from "react-router-dom"; // ✅ useNavigate 추가
+import { useNavigate } from "react-router-dom";
 import mainImg from "../../assets/여행지 이미지/한국/한국여행지.jpg";
 
 const MainSection = ({ searchText, setSearchText }) => {
-  const navigate = useNavigate(); // ✅ useNavigate 사용
+  const navigate = useNavigate();
 
   const handleSearch = () => {
     if (searchText.trim()) {
-      // ✅ 검색어를 URL 파라미터로 포함하여 페이지 이동
       navigate(`/course?search=${encodeURIComponent(searchText)}`);
     }
-
-    /* try {
-      // 🔹 AI API 요청
-      const response = await fetch("https://your-ai-api.com/search", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ query: searchText }),
-      });
-
-      const result = await response.json();
-
-      // 🔹 검색 결과가 존재하는 경우, MainContent로 이동
-      window.location.href("/course", { state: { searchText, aiResults: result } });
-    } catch (error) {
-      console.error("검색 중 오류 발생:", error);
-      alert("검색 중 문제가 발생했습니다.");
-    } */
   };
 
   return (
