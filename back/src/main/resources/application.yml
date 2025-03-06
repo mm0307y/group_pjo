@@ -1,13 +1,19 @@
 server:
   port: 7007
-
+logging:
+  pattern:
+    console:  "${LOGPATTERN_CONSOLE:%green(%d{HH:mm:ss.SSS}) %blue(%-5level) %red([%thread]) %yellow(%logger{15}:%line)-%msg%n}"
+    level:
+      org.springframework.security:${SPRING_SECURITY_LOG_LEVEL:TRACE}
 spring:
-  output:
-    ansi:
-      enabled: always
-      
-  thymeleaf:
-    prefix: classpath:templates/
-    suffix: .html
-    view-names: thymeleaf/*
-    cache: false
+  datasource:
+    url: jdbc:mysql://localhost:3306/your_database_name?useSSL=false&serverTimezone=UTC
+    username: root
+    password: # 비밀번호가 없으면 비워두거나 설정하지 않습니다
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    hikari:
+      maximum-pool-size: 10  # 연결 풀의 최대 크기 설정
+      minimum-idle: 5  # 최소 대기 연결 수
+      idle-timeout: 600000  # 비활성 연결 최대 대기 시간
+
+

@@ -24,6 +24,12 @@ repositories {
 }
 
 dependencies {
+	implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.4'
+	implementation 'io.jsonwebtoken:jjwt-api:0.11.5'
+    implementation 'io.jsonwebtoken:jjwt-impl:0.11.5'
+    implementation 'io.jsonwebtoken:jjwt-jackson:0.11.5'
+	implementation 'org.apache.commons:commons-lang3:3.14.0'
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.springframework.boot:spring-boot-starter-security'
 	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
@@ -39,4 +45,8 @@ dependencies {
 
 tasks.named('test') {
 	useJUnitPlatform()
+}
+
+tasks.withType(JavaCompile) {
+    options.compilerArgs += ['-parameters']
 }
