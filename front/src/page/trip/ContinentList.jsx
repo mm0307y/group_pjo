@@ -1,35 +1,40 @@
 import React from "react";
+import korea from "../../assets/여행지 이미지/한국/불꽃놀이.jpg"
+import japan from "../../assets/여행지 이미지/일본/훗카이도 시코쓰 호수 얼음 축제.jpg"
+import italian from "../../assets/여행지 이미지/이탈리아/베로나 오페라 페스티벌.JPG"
+import thailand from "../../assets/여행지 이미지/태국/코팡안 풀문 파티.JPG"
+import maldives from "../../assets/여행지 이미지/몰디브/몰디브 전통 보트.JPG"
+import usa from "../../assets/여행지 이미지/미국/뉴욕 타임스퀘어 새해맞이.JPG"
 
 const continents = [
   {
-    name: "아시아",
-    image:
-      "https://creatie.ai/ai/api/search-image?query=Iconic Asian landmarks and cultural symbols including temples, cherry blossoms, and traditional architecture against a serene natural backdrop&width=400&height=300&orientation=landscape&flag=973c6964-e695-40c8-93b1-663ed75bd257",
+    name: "대한민국",
+    image: korea,
   },
+  
   {
-    name: "유럽",
-    image:
-      "https://creatie.ai/ai/api/search-image?query=European cityscape featuring historic architecture, cobblestone streets, and iconic landmarks like the Eiffel Tower against a dramatic sky&width=400&height=300&orientation=landscape&flag=8b5c48e3-5398-4c54-b0db-9a847a7808fd",
+    name: "일본",
+    image: japan,
   },
+
   {
-    name: "북아메리카",
-    image:
-      "https://creatie.ai/ai/api/search-image?query=North American landscape showcasing modern cities, natural wonders like the Grand Canyon, and diverse cultural elements against a sunset sky&width=400&height=300&orientation=landscape&flag=d6d77818-e059-4577-ad08-249ba862cf6f",
+    name: "이탈리아",
+    image: italian,
   },
+
   {
-    name: "남아메리카",
-    image:
-      "https://creatie.ai/ai/api/search-image?query=South American scenery featuring vibrant carnival celebrations, ancient Incan ruins, and lush Amazon rainforest against a dramatic mountain backdrop&width=400&height=300&orientation=landscape&flag=36a50012-64b1-4a56-b227-5c2b368d6c2d",
+    name: "태국",
+    image: thailand,
   },
+
   {
-    name: "아프리카",
-    image:
-      "https://creatie.ai/ai/api/search-image?query=African landscape with traditional tribal celebrations, wildlife, and iconic savanna sunset featuring cultural elements and natural beauty&width=400&height=300&orientation=landscape&flag=f85b0a02-3f65-4385-9d4e-a8a8eeedab03",
+    name: "몰디브",
+    image: maldives,
   },
+  
   {
-    name: "오세아니아",
-    image:
-      "https://creatie.ai/ai/api/search-image?query=Oceania landscape featuring the Sydney Opera House, Aboriginal art, Pacific Island culture, and pristine beaches against a clear blue sky&width=400&height=300&orientation=landscape&flag=7bd7f254-8e77-43fd-a3ed-b3bcf0211e99",
+    name: "미국",
+    image: usa,
   },
 ];
 
@@ -40,7 +45,7 @@ const ContinentList = () => {
 
   return (
     <section className="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-      <h2 className="text-3xl font-bold mb-8">대륙별 여행지</h2>
+      <h2 className="text-3xl font-bold mb-8">나라별 여행지</h2>
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
         {continents.map((continent, index) => (
           <div
