@@ -44,6 +44,7 @@ public class SecurityConfig {
                         .csrf(AbstractHttpConfigurer::disable) //테스트 시 불필요한 CSRF 보호를 비활성화
                         .authorizeHttpRequests((requests) -> requests
                                 .requestMatchers("/api/v1/auth/**").permitAll() //인증없이 모든 사용자의 접근을 허용한다.
+                                .requestMatchers("/error").permitAll()
                                 .requestMatchers("/schedule/**").hasAnyAuthority(Role.ADMIN.name(), Role.USER.name())
                                 .requestMatchers("/notice/**").hasAnyAuthority(Role.USER.name())
                                 .requestMatchers("/admin/**").hasAnyAuthority(Role.ADMIN.name())
@@ -59,6 +60,7 @@ public class SecurityConfig {
 
         //아래 코드가 없으면 user 12345로 로그인 안됨.
         //spring security 5이상에서는 비밀번호를 저장할 때 반드시 인코딩 방식이 명시되어야 함.
+        //Bean이 붙은 자원은 스프링 컨테이너(spring-core.jar)가 관리 해줌- jar, war, ear
         @Bean
         public PasswordEncoder passwordEncoder(){
                 return new BCryptPasswordEncoder();

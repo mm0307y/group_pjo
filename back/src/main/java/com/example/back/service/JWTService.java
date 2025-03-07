@@ -37,6 +37,7 @@ public class JWTService{
 
     public String generateRefreshToken(Map<String, Object> extraClaims, UserDetails userDetails) {
         log.info("@@refreshToken@@");
+        /* return Jwts.builder().setClaims(extraClaims).setSubject(userDetails.getUsername()) */
         return Jwts.builder().setClaims(extraClaims).setSubject(userDetails.getUsername())
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 24 * 7))// jwt 토큰 만료 시간 7일

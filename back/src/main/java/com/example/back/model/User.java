@@ -8,15 +8,20 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 //스프링 시큐리티에서는 일반 클래스는 담을 수가 없다.
 //반드시 UserDetails타입만 담을 수 있다.
-
 @Data
+/* @Getter
+@Setter */
 public class User implements UserDetails {
     private int user_no;
     private String user_name;
     private String user_email;
+    /* private String id;
+    private String pw; */
     private String user_id;
     private String user_pw;
     private String user_birth;
@@ -47,6 +52,22 @@ public class User implements UserDetails {
     public boolean isEnabled(){
         return true;
     }
+	@Override
+	public String getPassword() {
+		return user_pw;
+	}
+	@Override
+	public String getUsername() {
+		return user_id;
+	}
+    /* @Override
+    public String getPassword() {
+        return pw;
+    }
+    @Override
+    public String getUsername() {
+        return id;
+    } */
     
 }
 
