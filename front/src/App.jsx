@@ -5,17 +5,17 @@ import Footer from "./components/includes/Footer";
 import HomePage from "./page/trip/HomePage";
 import PlannerPage from "./page/planner/PlannerPage";
 import LoginPage from "./page/auth/LoginPage";
-import MyPage from "./page/auth/MyPage";
 import SignupPage from "./page/auth/SignupPage";
 import FindPassword from "./page/auth/FindPassword";
 import FindId from "./page/auth/FindId";
 import TravelPage from "./page/notice/TravelPage";
 import TravelReviewForm from "./page/notice/TravelReviewForm";
 import "./index.css";
+import MypageCheck from "./page/auth/MypageCheck";
 
 const Layout = ({ children, resetSearch }) => {
   const location = useLocation();
-  const shouldHideHeaderFooter = ["/login", "/signup", "/find-id", "/find-pw"].some(path => location.pathname.startsWith(path));
+  const shouldHideHeaderFooter = ["/login", "/signup", "/find-id", "/find-pw", "/mypage-check"].some(path => location.pathname.startsWith(path));
 
   return (
     <>
@@ -41,7 +41,7 @@ const App = () => {
           <Route path="/signup" element={<SignupPage />} />
           <Route path="/find-pw" element={<FindPassword />} />
           <Route path="/find-id" element={<FindId />} />
-          <Route path="/mypage" element={<MyPage />} />
+          <Route path="/mypage-check" element={<MypageCheck />} />
         </Routes>
       </Layout>
     </BrowserRouter>

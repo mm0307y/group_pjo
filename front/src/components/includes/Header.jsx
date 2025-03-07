@@ -1,38 +1,36 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import axios from "axios"; // API 호출을 위한 axios 추가
 
 const Header = ({ resetSearch }) => {
+  const navigate = useNavigate(); // 네비게이션 훅 사용
   const [isLoggedIn, setIsLoggedIn] = useState(false); // 로그인 상태 관리
   const [userId, setUserId] = useState(""); // 로그인한 사용자 아이디
-  const [shouldHideAuthButtons, setShouldHideAuthButtons] = useState(false); // 로그인/회원가입 버튼 숨기기 상태
-  const navigate = useNavigate(); // 네비게이션 훅 사용
-  const location = useLocation(); // 현재 경로 확인
 
+  // 로그인 상태 확인 (백엔드 API 호출)
   useEffect(() => {
-    // 뒤로 가기 이벤트 발생 시 특정 페이지에서만 새로고침
-    const handlePopState = () => {
-      const reloadPaths = ["/", "/course", "/community", "/login", "/find-id", "/find-pw", "/signup"];
-      if (reloadPaths.includes(window.location.pathname)) {
-        window.location.reload();
-      }
-    };
-
-    window.addEventListener("popstate", handlePopState);
-    return () => {
-      window.removeEventListener("popstate", handlePopState);
-    };
+    axios.get("/api/auth/check", { withCredentials: true }) // 쿠키 기반 로그인 확인
+      .then((response) => {
+        if (response.data.isAuthenticated) {
+          setIsLoggedIn(true);
+          setUserId(response.data.userId);
+        }
+      })
+      .catch(() => {
+        setIsLoggedIn(false);
+        setUserId("");
+      });
   }, []);
 
-  // 경로 변경 시 버튼 숨기기 상태 업데이트
-  useEffect(() => {
-    // 로그인, 아이디 찾기, 비밀번호 찾기, 회원가입 페이지에서는 버튼을 숨기기
-    const authPages = ["/login", "/find-id", "/find-pw", "/signup"];
-    setShouldHideAuthButtons(authPages.includes(location.pathname)); // 페이지 경로에 따라 버튼 숨김 상태를 설정
-  }, [location.pathname]); // pathname이 변경될 때마다 실행
-
-  // 페이지 이동 함수
-  const handleNavigation = (path) => {
-    navigate(path);
+  // 로그아웃 기능 (백엔드 요청)
+  const handleLogout = () => {
+    axios.post("/api/auth/logout", {}, { withCredentials: true })
+      .then(() => {
+        setIsLoggedIn(false);
+        setUserId("");
+        navigate("/");
+      })
+      .catch((error) => console.error("로그아웃 오류:", error));
   };
 
   return (
@@ -54,15 +52,23 @@ const Header = ({ resetSearch }) => {
           <div className="flex space-x-8 text-gray-700 font-medium text-lg">
             <span
               className="cursor-pointer hover:text-custom"
-              onClick={() => handleNavigation("/course")}
+              onClick={() => navigate("/course")}
             >
               코스추천
             </span>
+
             <span
               className="cursor-pointer hover:text-custom"
-              onClick={() => handleNavigation("/community")}
+              onClick={() => navigate("/community")}
             >
-              커뮤니티
+              코스 후기
+            </span>
+
+            <span
+              className="cursor-pointer hover:text-custom"
+              onClick={() => navigate("/course_list")}
+            >
+              코스 추천
             </span>
           </div>
 
@@ -72,33 +78,29 @@ const Header = ({ resetSearch }) => {
               // 로그인 상태일 경우
               <>
                 <span
-                  onClick={() => handleNavigation("/mypage")}
+                  onClick={() => navigate("/mypage")}
                   className="text-gray-600 hover:text-custom cursor-pointer"
                 >
                   {userId}님
                 </span>
                 <button
-                  onClick={() => {
-                    setIsLoggedIn(false);
-                    setUserId("");
-                    handleNavigation("/");
-                  }}
+                  onClick={handleLogout}
                   className="rounded-md bg-custom text-white px-4 py-2 text-sm"
                 >
                   로그아웃
                 </button>
               </>
-            ) : !shouldHideAuthButtons && (
-              // 로그인 상태가 아니고, 로그인/회원가입 버튼을 숨기지 않은 경우
+            ) : (
+              // 로그인 상태가 아닐 경우
               <>
                 <button
-                  onClick={() => handleNavigation("/login")}
+                  onClick={() => navigate("/login")}
                   className="rounded-md text-gray-600 hover:text-custom px-3 py-2 text-sm"
                 >
                   로그인
                 </button>
                 <button
-                  onClick={() => handleNavigation("/signup")}
+                  onClick={() => navigate("/signup")}
                   className="rounded-md bg-orange-500 text-white px-4 py-2 text-sm"
                 >
                   회원가입

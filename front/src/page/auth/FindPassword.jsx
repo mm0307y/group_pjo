@@ -4,37 +4,38 @@ import { useNavigate } from "react-router-dom"; // useNavigate 훅 추가
 const FindPassword = () => {
   const [userId, setUserId] = useState(""); // 아이디 상태
   const [email, setEmail] = useState(""); // 이메일 상태
-  const [isFormValid, setIsFormValid] = useState(false); // 폼 유효성 상태
+  const [isIdFocused, setIsIdFocused] = useState(false); // 이름 필드의 포커스 상태
+  const [isEmailFocused, setIsEmailFocused] = useState(false); // 이메일 필드의 포커스 상태
+  const navigate = useNavigate(); // useNavigate 훅 사용 
 
-  const navigate = useNavigate(); // useNavigate 훅 사용
-
-  // 입력값 변화에 따른 유효성 검사
-  const validateForm = () => {
-    const isValid = userId.trim() !== "" && email.trim() !== "";
-    setIsFormValid(isValid);
+  // 로그인 페이지로 이동
+  const handleNavigateToLogin = () => {
+    navigate("/login");
   };
 
-  useEffect(() => {
-    validateForm(); // 입력값이 변할 때마다 유효성 검사
-  }, [userId, email]);
+  // 아이디 찾기 페이지로 이동
+  const handleNavigateToFindId = () => {
+    navigate("/find-id");
+  };
 
+  // 홈으로 이동
+  const handleNavigateToHome = () => {
+    navigate("/");
+  };
+
+  // 폼 제출 핸들러
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (isFormValid) {
+    if (userId && email) {
       alert("비밀번호 찾기 요청이 전송되었습니다.");
     }
   };
 
-  const handleNavigateToLogin = () => {
-    window.location.href = "/login"; // 로그인 페이지로 이동
-  };
-
-  const handleNavigateToFindId = () => {
-    window.location.href = "/find-id"; // 아이디 찾기 페이지로 이동
-  };
-
   return (
-    <div className="min-h-screen bg-gray-50 flex flex-col font-['Noto_Sans_KR']">
+    <div
+      className="min-h-screen bg-cover bg-center bg-no-repeat flex flex-col font-['Noto_Sans_KR']"
+      style={{ backgroundImage: "url('/images/korea_pw.jpg')" }} // ✅ 배경 이미지 추가
+    >
       <main className="flex-grow flex items-center justify-center px-4 sm:px-6 lg:px-8">
         <div className="max-w-md w-full space-y-8 bg-white p-8 rounded-lg shadow-sm">
           <div>
@@ -42,7 +43,7 @@ const FindPassword = () => {
               className="mx-auto h-12 w-auto cursor-pointer"
               src="/images/Yeoul_Logo.png"
               alt="Logo"
-              onClick={() => navigate("/")} // ✅ navigate("/") 사용
+              onClick={handleNavigateToHome} // ✅ 함수 분리
             />
             <h2 className="mt-6 text-center text-3xl font-bold text-gray-900">
               비밀번호 찾기
@@ -52,18 +53,21 @@ const FindPassword = () => {
             </p>
           </div>
 
+          {/* 입력 폼 */}
           <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
             <div className="space-y-4">
+
+              {/* 이름 입력 필드 */}
               <div>
                 <label
                   htmlFor="user-id"
-                  className="block text-sm font-medium text-gray-700"
+                  className="block text-sm font-medium text-gray-700 mb-1"
                 >
                   아이디
                 </label>
                 <div className="mt-1 relative">
                   <span className="absolute inset-y-0 left-0 pl-3 flex items-center text-gray-400">
-                    <i className="fas fa-user"></i>
+                    <i className={`fas fa-user ${isIdFocused ? "text-orange-500" : "text-gray-400"}`}></i>
                   </span>
                   <input
                     id="user-id"
@@ -72,21 +76,23 @@ const FindPassword = () => {
                     required
                     value={userId}
                     onChange={(e) => setUserId(e.target.value)}
-                    className="!rounded-button block w-full pl-10 py-3 border border-gray-300 focus:ring-custom focus:border-custom"
-                    placeholder="아이디를 입력하세요"
+                    onFocus={() => setIsIdFocused(true)}  // 이름 필드 포커스 시
+                    onBlur={() => setIsIdFocused(false)}  // 이름 필드 포커스 해제 시
+                    className="!rounded-button block w-full pl-10 py-3 border border-gray-300 focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+                    placeholder="아이디를 입력하세요."
                   />
                 </div>
               </div>
               <div>
                 <label
                   htmlFor="email"
-                  className="block text-sm font-medium text-gray-700"
+                  className="block mb-1 text-sm font-medium text-gray-700"
                 >
                   이메일
                 </label>
                 <div className="mt-1 relative">
                   <span className="absolute inset-y-0 left-0 pl-3 flex items-center text-gray-400">
-                    <i className="fas fa-envelope"></i>
+                    <i className={`fas fa-envelope ${isEmailFocused ? "text-orange-500" : "text-gray-400"}`}></i>
                   </span>
                   <input
                     id="email"
@@ -95,8 +101,10 @@ const FindPassword = () => {
                     required
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    className="!rounded-button block w-full pl-10 py-3 border border-gray-300 focus:ring-custom focus:border-custom"
-                    placeholder="이메일을 입력하세요"
+                    onFocus={() => setIsEmailFocused(true)}  // 이메일 필드 포커스 시
+                    onBlur={() => setIsEmailFocused(false)}  // 이메일 필드 포커스 해제 시
+                    className="!rounded-button block w-full pl-10 py-3 border border-gray-300 focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+                    placeholder="이메일을 입력하세요."
                   />
                 </div>
               </div>
@@ -105,9 +113,9 @@ const FindPassword = () => {
             <div>
               <button
                 type="submit"
-                disabled={!isFormValid}
-                className={`!rounded-button group relative w-full flex justify-center py-3 px-4 border border-transparent text-sm font-medium text-white ${isFormValid
-                  ? "bg-custom hover:bg-custom/90"
+                disabled={!userId || !email} // ✅ isFormValid 제거 후 간단히 처리
+                className={`!rounded-button group relative w-full flex justify-center py-3 px-4 border border-transparent text-sm font-medium text-white ${userId && email
+                  ? "bg-orange-500 hover:bg-orange-600"
                   : "bg-orange-500 cursor-not-allowed"
                   } focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-custom`}
               >
@@ -133,10 +141,6 @@ const FindPassword = () => {
           </form>
         </div>
       </main>
-
-      <footer className="py-4 text-center text-sm text-gray-500">
-        <p>&copy; 2024 All rights reserved.</p>
-      </footer>
     </div>
   );
 };

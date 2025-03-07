@@ -3,7 +3,7 @@ import flatpickr from "flatpickr";
 import "flatpickr/dist/themes/light.css";
 import "flatpickr/dist/l10n/ko.js";
 import { GoogleMap, LoadScript } from "@react-google-maps/api";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 
 const containerStyle = {
@@ -23,10 +23,13 @@ const PlannerPage = () => {
   const [travelStyle, setTravelStyle] = useState([]);
   const [mapCenter, setMapCenter] = useState(defaultCenter);
   const [dateRange, setDateRange] = useState([]);
+  const [isOpen, setIsOpen] = useState(false); // 📌 달력이 열려 있는지 상태 관리
 
   const location = useLocation();
+  const navigate = useNavigate(); // 📌 페이지 이동을 위한 네비게이션 추가
   const searchParams = new URLSearchParams(location.search);
   const datePickerRef = useRef(null);
+  const flatpickrInstance = useRef(null); // 📌 Flatpickr 인스턴스 저장
   const searchQuery = searchParams.get("search") || "";
   const [country, setCountry] = useState(searchQuery);
 
@@ -38,7 +41,7 @@ const PlannerPage = () => {
 
   useEffect(() => {
     if (datePickerRef.current) {
-      flatpickr(datePickerRef.current, {
+      flatpickrInstance.current = flatpickr(datePickerRef.current, {
         locale: "ko",
         mode: "range",
         dateFormat: "Y.m.d",
@@ -50,7 +53,9 @@ const PlannerPage = () => {
             const nights = Math.round((selectedDates[1] - selectedDates[0]) / (1000 * 60 * 60 * 24));
             setTripDuration(`${nights}박 ${nights + 1}일`);
           }
+          setIsOpen(false); // 📌 날짜 선택이 완료되면 닫힘
         },
+        onClose: () => setIsOpen(false), // 📌 Flatpickr가 닫힐 때 상태 변경
       });
     }
   }, []);
@@ -103,6 +108,38 @@ const PlannerPage = () => {
     },
   ];
 
+  // 📌 달력 토글 기능
+  const toggleDatePicker = () => {
+    if (flatpickrInstance.current) {
+      if (isOpen) {
+        flatpickrInstance.current.close(); // 📌 달력이 열려 있으면 닫기
+      } else {
+        flatpickrInstance.current.open(); // 📌 달력이 닫혀 있으면 열기
+      }
+      setIsOpen(!isOpen); // 📌 상태 업데이트
+    }
+  };
+
+  // 📌 "공유하기" 버튼 클릭 시 글쓰기 페이지로 이동
+  const handleShare = () => {
+    navigate("/c_write");
+  };
+
+  // 📌 "저장하기" 버튼 클릭 시 mypage에 일정 저장
+  const handleSave = () => {
+    const savedCourses = JSON.parse(localStorage.getItem("savedCourses")) || [];
+    const newCourse = {
+      country,
+      dateRange,
+      tripDuration,
+      travelStyle,
+      itinerary,
+    };
+    localStorage.setItem("savedCourses", JSON.stringify([...savedCourses, newCourse]));
+
+    alert("여행 일정이 마이페이지에 저장되었습니다!");
+  };
+
   return (
     <main className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8 py-8 mt-16">
       {/* 타이틀 */}
@@ -118,6 +155,7 @@ const PlannerPage = () => {
       {/* 여행 정보 입력 */}
       <div className="bg-white shadow sm:rounded-lg p-6 mb-12">
         <h2 className="text-2xl font-bold mb-6">여행 정보 입력</h2>
+
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
           <div>
             <label className="block text-sm font-medium text-gray-700">여행 국가</label>
@@ -134,11 +172,13 @@ const PlannerPage = () => {
           <div>
             <label className="block text-sm font-medium text-gray-700">여행 기간</label>
             <div className="relative">
-              <i className="far fa-calendar absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+              <i className="far fa-calendar absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 cursor-pointer" onClick={toggleDatePicker}></i>
               <input
                 ref={datePickerRef}
-                className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-custom focus:border-custom"
+                className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-custom focus:border-custom cursor-pointer"
                 placeholder="여행 날짜를 선택하세요"
+                onClick={toggleDatePicker} // 📌 클릭 시 달력 토글
+                readOnly // 📌 키보드 입력 방지 (달력으로만 선택)
               />
             </div>
             {tripDuration &&
@@ -165,6 +205,7 @@ const PlannerPage = () => {
             ))}
           </div>
         </div>
+
         <div className="mt-6 text-center flex justify-end">
           <button className="bg-orange-500 text-white px-3 py-1 rounded-lg text-lg font-bo ld shadow-md items-center justify-center gap-2">
             <img src="/images/yeoul_logo.png" alt="여울 로고" className="h-12 w-auto" />
